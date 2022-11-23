@@ -1,21 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
 
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {CreateSection} from "./components/create-section";
 import {Row} from "./components/row";
 import { Main } from './components/main';
+import { loader as mainLoader } from "./components/main";
+
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Main />,
+    loader: mainLoader
+  }
+])
 
 function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path = '/create-section' element = {<CreateSection />} />
-        <Route path = '/row' element = {<Row />} />
-        <Route path = "/" element = {<Main />} />
-      </Routes>
-    </Router>
-  );
+
+    return <RouterProvider router={router} />;
+
 }
 
 export default App;

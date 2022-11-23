@@ -8,7 +8,7 @@ export function Row(props){
     <td>
         <tr>{props.start}</tr>
         <tr>{props.end}</tr>
-        <tr onClick={() => props.func}><button>Move</button></tr>
+        <tr><button>Move</button></tr>
     </td>
     );
 }

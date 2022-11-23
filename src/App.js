@@ -13,12 +13,16 @@ const router = createBrowserRouter([
     path: "/",
     element: <Main />,
     loader: mainLoader
+  },
+  {
+    path: "/create-section",
+    element: <CreateSection />
   }
 ])
 
 function App() {
 
-    return <RouterProvider router={router} />;
+    return <RouterProvider router={router}  />;
 
 }
 

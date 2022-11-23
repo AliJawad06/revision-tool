@@ -4,8 +4,8 @@ let mongoose = require('mongoose');
 let sectionSchema = require('../models/Section');
 
   router.route('/create-section').post((req, res, next) => {
-    console.log('you have reached here');
-    sectionSchema.create(req.body, (error, data) => {
+    console.log('req.body');
+    sectionSchema.create({},req.body, (error, data) => {
       if (error) {
         return next(error)
       } else {

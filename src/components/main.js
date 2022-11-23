@@ -1,4 +1,4 @@
-import React,{useState, useReducer} from 'react';
+import React,{useState, useReducer, useEffect} from 'react';
 import { Row } from './row';
 import axios from 'axios';
 import {useLoaderData} from 'react-router-dom';
@@ -6,10 +6,24 @@ import {useLoaderData} from 'react-router-dom';
 
 
   /**
-   *  axios.post('http://localhost:4000/set-sections', sectionss)
-                  .then(res => console.log(res))
-                  .catch(err => console.log(err));
+   *  
    */
+         //        
+
+  function reducer(state,action){
+    switch(action.type){
+        case "done":{
+            return (
+                state.map((value) =>{
+                    return(value.id <= action.id ? {...value, id:(value.id%action.id) +1} : value)
+                })
+            )
+                 
+            };
+        }
+
+    }
+  
 
   export function loader(){
     return( axios.get('http://localhost:4000/get-sections')
@@ -22,19 +36,23 @@ import {useLoaderData} from 'react-router-dom';
 
 export function Main(){ 
 
-    const [sections, setSections] = useState(useLoaderData().data);
-    
-    console.log(sections[0].end);
-    return(
-            <div>
-{    
-        sections.map((value) =>(
-            
-            <Row start = {value.start} end = {value.end} />
-        ))  
+    const [sections, dispatch] = useReducer(reducer, useLoaderData().data);
+ console.log(sections);
+   
+ useEffect(() => {
+    axios.post('http://localhost:4000/set-sections', sections)
+                  .then(res => console.log(res))
+                  .catch(err => console.log(err));
+   },[sections]);
 
-        }
-              </div>
+    
+    console.log(sections);
+    return(
+        <table>
+         {sections.map((value) => {
+           return( <Row start = {value.start} end = {value.end} func={() => dispatch({type: "done", id:value.id})} />)
+            })}
+         </table>
 
 
     );

@@ -5,10 +5,12 @@ export function Row(props){
 
 
     return(
-    <td>
-        <tr>{props.start}</tr>
-        <tr>{props.end}</tr>
-        <tr><button>Move</button></tr>
-    </td>
+ <tbody>
+    <tr>
+        <td>{props.start}</td>
+        <td>{props.end}</td>
+        <td><button>Move</button></td>
+    </tr>
+</tbody>
     );
 }

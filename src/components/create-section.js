@@ -9,6 +9,7 @@ export function CreateSection(){
 
     async function addSection(e){
         e.preventDefault();
+        console.log(e);
         const send = {
             start: start,
             end: end,
@@ -26,10 +27,10 @@ export function CreateSection(){
 
 
     return(
-        <form onSubmit={(e)=> addSection(e)}>
+        <form >
             <input type="text" name="start" value ={start} onChange={(e) => setStart(e.target.value)} />
             <input type="text" name="end" value = {end} onChange={(e) => setEnd(e.target.value)} />
-            <button type = "submit">Create</button>
+            <button onClick={(e)=> addSection(e) }type = "submit">Create</button>
         </form> 
     )
 }

@@ -7,7 +7,7 @@ import {useLoaderData} from 'react-router-dom';
 
   /**
    *  
-   */
+  
          //        
 
   function reducer(state,action){
@@ -24,33 +24,43 @@ import {useLoaderData} from 'react-router-dom';
 
     }
   
-
+ */
   export function loader(){
-    return( axios.get('http://localhost:4000/get-sections')
+    const sections = axios.get('http://localhost:4000/get-sections')
     .then(res => (res))
-    .catch(err => console.log(err)));
+    .catch(err => console.log(err));
+    return(sections);
   }
+
+
+
 
 
 
 
 export function Main(){ 
 
-    const [sections, dispatch] = useReducer(reducer, useLoaderData().data);
- console.log(sections);
-   
- useEffect(() => {
-    axios.post('http://localhost:4000/set-sections', sections)
-                  .then(res => console.log(res))
-                  .catch(err => console.log(err));
-   },[sections]);
-
+    const [sections,setSections] = useState(useLoaderData().data);
+    //const [isMoved, setIsMoved] = useState(false);
     
+ 
+   function move(id){
+    const temp = sections.map((value) =>{
+        return(value.id <= id ? {...value, id:((value.id+1)%(id+1)) } : {...value, id:value.id+1})
+    })
+    setSections(temp.sort((a,b) => {return(a.id - b.id)}));
     console.log(sections);
-    return(
+   }
+
+
+       return(
         <table>
          {sections.map((value) => {
-           return( <Row start = {value.start} end = {value.end} func={() => dispatch({type: "done", id:value.id})} />)
+           return(
+            <tbody>
+             <Row start = {value.start} end = {value.end} id = {value.id} />
+           <td><button onClick={() => move(value.id)}>Move</button></td>
+           </tbody>)
             })}
          </table>
 

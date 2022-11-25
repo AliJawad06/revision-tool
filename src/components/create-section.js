@@ -5,6 +5,7 @@ import axios from 'axios'
 export function CreateSection(){
     const [start,setStart] = useState(":");
     const [end,setEnd] = useState(":");
+    /**TODO: useState(# of Documents using useContext) */
     const [total,setTotal] = useState(1);
 
     async function addSection(e){

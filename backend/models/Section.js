@@ -10,6 +10,9 @@ let sectionSchema = new Schema({
   },
   id:{
     type: Number
+  },
+  status:{
+    type: String
   }
 }, {
     collection: 'sections'

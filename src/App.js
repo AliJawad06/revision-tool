@@ -1,17 +1,18 @@
 import logo from './logo.svg';
 import './App.css';
+import { loader as mainLoader } from './components/MMain';
+
+import { MMain } from './components/MMain';
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {CreateSection} from "./components/create-section";
-import {Row} from "./components/row";
-import { Main } from './components/main';
-import { loader as mainLoader } from "./components/main";
+//import { Main } from './components/main';
 
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Main />,
+    element: <MMain />,
     loader: mainLoader
   },
   {

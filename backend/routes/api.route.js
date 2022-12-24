@@ -26,12 +26,14 @@ router.route('/get-sections').get((req,res) =>{
 
 });
 
-router.route('/set-sections').post((req, res, next) => {
+router.route('/set-section').put((req, res, next) => {
   console.log('you have reached here');
-  sectionSchema.updateMany(req.body, (error, data) => {
+  console.log(req.body);
+  sectionSchema.updateOne({id:req.body._id}, req.body.update ,(error, data) => {
     if (error) {
       return next(error)
     } else {
+      console.log(data + " This is data");
       res.json(data);
       
     }

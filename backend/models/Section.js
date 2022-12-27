@@ -11,7 +11,7 @@ let sectionSchema = new Schema({
   id:{
     type: Number
   },
-  status:{
+  colID:{
     type: String
   }
 }, {

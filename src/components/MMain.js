@@ -35,19 +35,25 @@ function reducer(state, action){
 
 export function MMain(){
 
-const [sections, setSections] = useState(useLoaderData.data());    
+const [sections, setSections] = useState(useLoaderData().data);    
 const [newSections, setNewSections] = useState();
 const [forgotSections, setForgotSections] = useState();
 const [reviseSections, setReviseSections] = useState();
-const [state, dispatch] = useReducer(reducer,useLoaderData());
-const isRend = useRef(false);
+const [state, dispatch] = useReducer(reducer,useLoaderData().data);
+const isRend = useRef(0);
 
 
 useEffect(() => {
-    const id = 0; 
+    if(isRend.current < 2){
+        console.log(isRend.current);
+        isRend.current++
+    }else{
+    console.log("this is running");
+    var id = 0; 
     if(state.isReID){
         id = sections.filter(value => value.colID == state.colID).length
     }
+    console.log(JSON.stringify(state) + " this is state");
     const send = {
         _id: state._id,
         update:{
@@ -55,13 +61,15 @@ useEffect(() => {
         id: id
         }
     }
+
+   // console.log(send + " This is send");
+
+
     
-    if(isRend.current == false){
-        isRend.current = true
-    }else{
+    
         axios.put(`http://localhost:4000/set-section`, send )
         .then(res => {
-            console.log(res.data);
+            console.log(res.data + " this is res.data on MMAIN");
         })
         .catch(err => console.log(err));
     const newSections = []; 
@@ -86,14 +94,15 @@ useEffect(() => {
     
   
 
-
     return(
     <table>
-        <SectionsContext.Provider val = {dispatch}>
+        <SectionsContext.Provider value = {dispatch}>
+            <>           
+             <Col sections = {sections.filter(value => value.colID == "revise")} />
             <Col sections = {sections.filter(value => value.colID == "new")}  />
             <Col sections = {sections.filter(value => value.colID == "forgot")}   />
-            <Col sections = {sections.filter(value => value.colID == "revise")} />
-        </SectionsContext.Provider> 
+            </>
+  </SectionsContext.Provider> 
     </ table>
     )
 }

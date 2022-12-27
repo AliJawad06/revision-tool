@@ -38,11 +38,16 @@ import axios from 'axios';
 
 
 export function Col(props){ 
+   // {console.log(props.sections[0] + "this is props.sections")}
     return(  
+      
     <tbody>
-      { props.section.map((val)=>{
-            <Row start = {val.start} end = {val.end} id = {val.id} _id = {val._id} colID = {val.colID}  />
-       })}
+        {props.sections &&<>{
+       props.sections.map((val)=>{
+          return(  <Row start = {val.start} end = {val.end} id = {val.id} _id = {val._id} colID = {val.colID}/>)
+       })}</> 
+    }
    </tbody>
+  
     );
 }

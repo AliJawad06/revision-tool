@@ -1,5 +1,6 @@
 import React,{useState, useReducer, useEffect, useContext, createContext} from 'react';
 import { Row } from './row';
+import '../App.css'
 import axios from 'axios';
 
 
@@ -40,14 +41,19 @@ import axios from 'axios';
 export function Col(props){ 
    // {console.log(props.sections[0] + "this is props.sections")}
     return(  
-      
-    <tbody>
-        {props.sections &&<>{
+    
+    <>
+        {props.sections[0] && 
+        <div className='section'>
+        <h1>{props.sections[0].colID}</h1>
+        <tbody>{
        props.sections.map((val)=>{
           return(  <Row start = {val.start} end = {val.end} id = {val.id} _id = {val._id} colID = {val.colID}/>)
-       })}</> 
+       })} </tbody>
+       </div>
+      
     }
-   </tbody>
+  </> 
   
     );
 }

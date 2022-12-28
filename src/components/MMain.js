@@ -2,6 +2,7 @@ import React from 'react'
 import { useEffect, useState, useReducer} from 'react';
 import axios from 'axios';
 import { Col } from './Col';
+import '../App.css';
 import { useLoaderData } from 'react-router-dom';
 import { createContext, useRef } from 'react';
 import { SectionsContext } from '../SectionsContext';
@@ -69,12 +70,26 @@ useEffect(() => {
     
         axios.put(`http://localhost:4000/set-section`, send )
         .then(res => {
-            console.log(res.data + " this is res.data on MMAIN");
+            console.log(JSON.stringify(res.data) + " this is res.data on MMAIN");
         })
         .catch(err => console.log(err));
     const newSections = []; 
     const forgotSections = []; 
-    const reviseSections = []; 
+    const reviseSections = [];
+    
+    const isMatch = (element) => element._id == state._id
+    
+    setSections(sections.map((value) =>{
+        var obj = {}
+        if(value._id == state._id){
+        obj = {...value, colID: state.colID, id: id}
+        console.log(JSON.stringify(obj) + "this was clicked");
+        }else{
+            obj = value
+        }
+        return (obj)
+    }))
+
     sections.map((value) => {
         switch(value.colID){
             case "new":
@@ -95,9 +110,9 @@ useEffect(() => {
   
 
     return(
-    <table>
+    <table className='table'>
         <SectionsContext.Provider value = {dispatch}>
-            <>           
+            <> 
              <Col sections = {sections.filter(value => value.colID == "revise")} />
             <Col sections = {sections.filter(value => value.colID == "new")}  />
             <Col sections = {sections.filter(value => value.colID == "forgot")}   />

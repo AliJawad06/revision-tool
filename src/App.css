@@ -1,3 +1,6 @@
+.table{
+  text-decoration: blue !important;
+}
 .App {
   text-align: center;
 }
@@ -27,9 +30,7 @@
 .App-link {
   color: #61dafb;
 }
-.Col{
-  text-decoration: blue;
-}
+
 
 @keyframes App-logo-spin {
   from {

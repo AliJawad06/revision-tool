@@ -39,7 +39,7 @@ import axios from 'axios';
 
 
 export function Col(props){ 
-   // {console.log(props.sections[0] + "this is props.sections")}
+    {console.log(props.sections)}
     return(  
     
     <>

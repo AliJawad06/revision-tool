@@ -25,7 +25,7 @@ function reducer(state, action){
         
         case "move": {
             const colID = ((action.colID == "new" || action.colID) == "revise" ? "forgot" : "revise");
-            return({_id: action._id, id: 0, isReID: true, colID: colID});
+            return({_id: action._id, id: 0, isReID: true, colID: colID, ogcolID: action.colID, ogid: action.id});
             
         }
     }
@@ -47,21 +47,35 @@ const isRend = useRef(0);
 useEffect(() => {
     if(isRend.current < 2){
         console.log(isRend.current);
-        isRend.current++
+        isRend.current++;
     }else{
     console.log("this is running");
     var id = 0; 
+    var isReID = false
     if(state.isReID){
         id = sections.filter(value => value.colID == state.colID).length
+        isReID = true;
     }
     console.log(JSON.stringify(state) + " this is state");
+
+    const module = {
+        ogcolID: state.ogcolID,
+        ogid: state.ogid
+    }
+
     const send = {
+        ...module,
         _id: state._id,
+        move: isReID,
         update:{
         colID: state.colID, 
         id: id
         }
+       
+
     }
+    console.log(send + " this is send");
+
 
    // console.log(send + " This is send");
 
@@ -90,7 +104,7 @@ useEffect(() => {
         return (obj)
     }))
 
-    sections.map((value) => {
+   /* sections.map((value) => {
         switch(value.colID){
             case "new":
                 newSections.push(value);
@@ -99,14 +113,13 @@ useEffect(() => {
             case "revise":
                 reviseSections.push(value);
         }  
-         
 
-        
-    });
+    });*/
 
     }
   },[state]);
     
+  
   
 
     return(

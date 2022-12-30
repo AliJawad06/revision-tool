@@ -16,6 +16,6 @@ code {
   float: left;
   border-right: 3px black solid;
 }
-table, th {
+table, th,td {
     border: 1px solid black;
   }

@@ -38,11 +38,45 @@ router.route('/get-count').get((req,res) =>{
 
 
 });
-
+ 
 router.route('/set-section').put((req, res, next) => {
   console.log('you have reached here');
   console.log(req.body);
-  sectionSchema.updateOne({_id:req.body._id}, req.body.update ,(error, data) => {
+  var obj = {}
+  console.log(req.body.move + " this is move");
+  obj = (req.body.move ? {
+    updateOne: {
+      filter: {_id:req.body._id},
+      update: req.body.update
+    },
+    updateMany: {
+      filter: {$and:[{colID:req.body.ogcolID},{id:{$lt:req.body.ogid}}]},
+      update: { $inc: {id: 1}},
+      upsert: true
+
+    }
+  } : {
+    updateOne: {
+      filter: {_id: req.body._id},
+      update: req.body.update
+
+    },
+    updateMany: { 
+      filter: {$and: [{colID:req.body.update.colID}, {id: { $gt: req.body.update.id }}]}, 
+      update: {$inc: {id:1}},
+      upsert: true
+
+    }
+  });
+
+  console.log(JSON.stringify(obj) + " this is obj");
+ 
+
+
+  sectionSchema.bulkWrite([obj],{ordered:false})
+  .then((data) => console.log(data))
+  .catch((err) => console.log(err));
+  /*sectionSchema.updateOne({_id:req.body._id}, req.body.update ,(error, data) => {
     if (error) {
       return next(error)
     } else {
@@ -50,7 +84,7 @@ router.route('/set-section').put((req, res, next) => {
       res.json(data);
       
     }
-  })
+  })*/
 })
 
-module.exports = router;
+module.exports = router; 

@@ -40,14 +40,26 @@ import axios from 'axios';
 
 export function Col(props){ 
     {console.log(props.sections)}
+    const [sections, setSections] = useState(props.sections);
+    
+    useEffect(() => {   
+        sections.map((v) => console.log(JSON.stringify(v)+ " this before"));
+
+        var b; 
+        
+        sections.map((v) => console.log(JSON.stringify(v)+ " this after"));
+        setSections([...sections].sort((a,b) => (a.id-b.id)));
+    })
+
+
     return(  
     
     <>
-        {props.sections[0] && 
+        {sections[0] && 
         <div className='section'>
-        <h1>{props.sections[0].colID}</h1>
+        <h1>{sections[0].colID}</h1>
         <tbody>{
-       props.sections.map((val)=>{
+       sections.map((val)=>{
           return(  <Row start = {val.start} end = {val.end} id = {val.id} _id = {val._id} colID = {val.colID}/>)
        })} </tbody>
        </div>

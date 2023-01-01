@@ -102,7 +102,7 @@ useEffect(() => {
             obj = value
         }
         return (obj)
-    }))
+    })); 
 
    /* sections.map((value) => {
         switch(value.colID){

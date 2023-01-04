@@ -16,11 +16,13 @@ export function loader(){
     return(sections);
 }
 
+
+
 function reducer(state, action){
     
     switch(action.type){
         case "done": {
-            return({_id: action._id, id: 0, colID:action.colID});
+            return({_id: action._id, ogid:action.id, id: 0, colID:action.colID});
         }
         
         case "move": {
@@ -44,80 +46,45 @@ const [state, dispatch] = useReducer(reducer,useLoaderData().data);
 const isRend = useRef(0);
 
 
-useEffect(() => {
-    if(isRend.current < 2){
-        console.log(isRend.current);
-        isRend.current++;
-    }else{
-    console.log("this is running");
+useEffect(() => { 
+
+
     var id = 0; 
     var isReID = false
     if(state.isReID){
         id = sections.filter(value => value.colID == state.colID).length
         isReID = true;
     }
-    console.log(JSON.stringify(state) + " this is state");
 
     const module = {
         ogcolID: state.ogcolID,
-        ogid: state.ogid
     }
 
     const send = {
         ...module,
+        ogid: state.ogid,
         _id: state._id,
         move: isReID,
         update:{
         colID: state.colID, 
         id: id
         }
-       
-
     }
-    console.log(send + " this is send");
+
+    getSections(send);
 
 
-   // console.log(send + " This is send");
+}
+  ,[state]);
 
-
-    
-    
-        axios.put(`http://localhost:4000/set-section`, send )
-        .then(res => {
-            console.log(JSON.stringify(res.data) + " this is res.data on MMAIN");
-        })
-        .catch(err => console.log(err));
-    const newSections = []; 
-    const forgotSections = []; 
-    const reviseSections = [];
-    
-    const isMatch = (element) => element._id == state._id
-    
-    setSections(sections.map((value) =>{
-        var obj = {}
-        if(value._id == state._id){
-        obj = {...value, colID: state.colID, id: id}
-        console.log(JSON.stringify(obj) + "this was clicked");
-        }else{
-            obj = value
-        }
-        return (obj)
-    })); 
-
-   /* sections.map((value) => {
-        switch(value.colID){
-            case "new":
-                newSections.push(value);
-            case "forgot":
-                forgotSections.push(value);
-            case "revise":
-                reviseSections.push(value);
-        }  
-
-    });*/
-
-    }
-  },[state]);
+  const getSections = async (send) => {
+   const response = await axios.put(`http://localhost:4000/set-section`, send);
+   console.log(response.data);
+   setSections(response.data.map((x)=>{
+    return(x);
+   }))
+   
+}
     
   
   

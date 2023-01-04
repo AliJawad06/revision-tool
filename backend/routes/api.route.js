@@ -53,41 +53,39 @@ router.route('/set-section').put((req, res, next) => {
   },
   {
     updateMany: {
-      filter: {$and:[{colID:req.body.ogcolID},{id:{$lt:req.body.ogid}}]},
-      update: { $inc: {id: 1}},
+      filter: {$and:[{colID:req.body.ogcolID},{id:{$gt:req.body.ogid}}]},
+      update: { $inc: {id: -1}},
     }
   }] : [{
+    updateMany: { 
+      filter: {$and: [{colID:req.body.update.colID}, {id: { $lt: req.body.ogid }}]}, 
+      update: {$inc: {id:1}},
+    }
+  },{
     updateOne: {
       filter: {_id: req.body._id},
       update: req.body.update
 
     }
-  },
-  {
-    updateMany: { 
-      filter: {$and: [{colID:req.body.update.colID}, {id: { $gt: req.body.update.id }}]}, 
-      update: {$inc: {id:1}},
-      upsert: true
-
-    }
-  }]);
+  }
+  ]);
 
   console.log(JSON.stringify(obj) + " this is obj");
  
 
 
-  sectionSchema.bulkWrite(obj,{ordered:false})
+  sectionSchema.bulkWrite(obj,{ordered:true})
   .then((data) => console.log(data))
+  .catch((err) => console.log(err))
+  .finally(() =>{
+    sectionSchema.find()
+  .then((data) => {
+    res.json(data);
+  })
   .catch((err) => console.log(err));
-  /*sectionSchema.updateOne({_id:req.body._id}, req.body.update ,(error, data) => {
-    if (error) {
-      return next(error)
-    } else {
-      console.log(data + " This is data");
-      res.json(data);
-      
-    }
-  })*/
+  });  
+  
+
 })
 
 module.exports = router; 

@@ -39,22 +39,17 @@ import axios from 'axios';
 
 
 export function Col(props){ 
-    {console.log(props.sections)}
-    const [sections, setSections] = useState(props.sections);
-    
-    useEffect(() => {   
-        sections.map((v) => console.log(JSON.stringify(v)+ " this before"));
-
-        var b; 
-        
-        sections.map((v) => console.log(JSON.stringify(v)+ " this after"));
-        setSections([...sections].sort((a,b) => (a.id-b.id)));
-    })
+    var sections = props.sections
+    sections = [...sections].sort((a,b) => (a.id-b.id))
+  
+       
+  
 
 
     return(  
+   
+    <> 
     
-    <>
         {sections[0] && 
         <div className='section'>
         <h1>{sections[0].colID}</h1>

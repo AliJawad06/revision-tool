@@ -40,7 +40,7 @@ import axios from 'axios';
 
 export function Col(props){ 
     var sections = props.sections
-    sections = [...sections].sort((a,b) => (a.id-b.id))
+    sections = [...sections].sort((a,b) => (a.id-b.id)).reverse();
   
        
   
